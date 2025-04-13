@@ -34,17 +34,14 @@ async def start_proxy(local_host, local_port, remote_host, remote_port):
         local_host,
         local_port
     )
-    print(f"Proxy running on {local_host}:{local_port} -> {remote_host}:{remote_port}")
+    print(f"TCP Proxy running on {local_host}:{local_port} -> {remote_host}:{remote_port}")
     async with server:
         await server.serve_forever()
 
 if __name__ == "__main__":
     local_host = "127.0.0.1"
-    local_port = 8888
-    remote_host = "example.com"
-    remote_port = 80
+    local_port = 2000
+    remote_host = "127.0.0.1"
+    remote_port = 8080
 
-    try:
-        asyncio.run(start_proxy(local_host, local_port, remote_host, remote_port))
-    except KeyboardInterrupt:
-        print("Proxy stopped.")
+    asyncio.run(start_proxy(local_host, local_port, remote_host, remote_port))

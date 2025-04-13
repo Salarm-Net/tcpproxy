@@ -4,6 +4,9 @@ from aiohttp import web
 
 UPLOAD_DIR = './upload'
 
+async def handle_get_request(request):
+    return web.Response(status=200, text=f"success\n")
+
 # HTTPサーバーのPUTメソッドでファイルをアップロードするハンドラー
 async def handle_put_request(request):
     # アップロードされたファイルを取得
@@ -27,11 +30,12 @@ async def handle_put_request(request):
                 break
             f.write(chunk)
     
-    return web.Response(status=200, text=f"File '{filename}' uploaded successfully")
+    return web.Response(status=200, text=f"File '{filename}' uploaded successfully\n")
 
 # HTTPサーバーを起動
 async def start_http_server(local_host, local_port):
     app = web.Application()
+    app.router.add_get('/', handle_get_request)
     app.router.add_post('/upload', handle_put_request)
     
     runner = web.AppRunner(app)
@@ -45,6 +49,6 @@ async def start_http_server(local_host, local_port):
 # 実行
 if __name__ == "__main__":
     local_host = "127.0.0.1"
-    local_port = 8888
+    local_port = 8080
 
     asyncio.run(start_http_server(local_host, local_port))
